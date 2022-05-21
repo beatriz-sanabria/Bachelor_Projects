@@ -3,8 +3,8 @@ clear all
 clc
 
 % %---------------------------------------------------------------------% %
-% %....INSTITUTO TECNOL”GICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
-% %....................CAMPUS CIUDAD DE M…XICO..........................% %
+% %....INSTITUTO TECNOL√ìGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
+% %....................CAMPUS CIUDAD DE M√âXICO..........................% %
 % %...........................INTEGRANTES:..............................% %
 % %..............BEATRIZ SANABRIA BARRADAS - A01182649..................% %
 % %..............................Tarea 3................................% %
@@ -32,7 +32,7 @@ IRR2 = imadd(IR,f3);
 
 for i=1:16
     
-    %Limpieza de las im·genes
+    %Limpieza de las im√°genes
     IffL(:,:,i) = imfilter(I(:,:,i),f,'same');
     IRRL(:,:,i) = imadd(I(:,:,i),IffL(:,:,i));
     
@@ -58,8 +58,8 @@ subplot(2,3,3), imshow(IRR,[]), title('Bordes Resaltados log');
 subplot(2,3,4), imshow(IRR1,[]), title('Bordes Resaltados prewitt');
 subplot(2,3,5), imshow(IRR2,[]), title('Bordes Resaltados canny');
 
-figure('Name', 'Im·genes originales'),for i=1:16, subplot(4, 4, i), imshow(I(:,:,i),[]), end
-figure('Name', 'Im·genes limpias'), for i=1:16, subplot(4,4,i), imshow(IRRL(:,:,i),[]); end;
+figure('Name', 'Im√°genes originales'),for i=1:16, subplot(4, 4, i), imshow(I(:,:,i),[]), end
+figure('Name', 'Im√°genes limpias'), for i=1:16, subplot(4,4,i), imshow(IRRL(:,:,i),[]); end;
 figure('Name', 'Bordes resaltados Log'), for i=1:16, subplot(4,4,i), imshow(IRR1L(:,:,i),[]); end;
 figure('Name', 'Bordes resaltados Prewitt'), for i=1:16, subplot(4,4,i), imshow(IRR2P(:,:,i),[]); end;
 figure('Name', 'Bordes resaltados Canny'), for i=1:16, subplot(4,4,i), imshow(IRR3C(:,:,i),[]); end;

@@ -3,8 +3,8 @@ close all
 clc
 
 % %---------------------------------------------------------------------% %
-% %....INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
-% %....................CAMPUS CIUDAD DE MÉXICO..........................% %
+% %....INSTITUTO TECNOLÃ“GICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
+% %....................CAMPUS CIUDAD DE MÃ‰XICO..........................% %
 % %...........................INTEGRANTES:..............................% %
 % %..............BEATRIZ SANABRIA BARRADAS - A01182649..................% %
 % %.........................Examen Parcial 1............................% %
@@ -13,38 +13,38 @@ clc
 %Procedimiento:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%1.- Leer el art’culo de Automated Histogram-Based Brain Segmentation in T1-   %
-%Weighted Three-Dimensional Magnetic Resonance Head Images” Zu YS et al,        %
-%NeuroImage 17, 1587–1598 (2002);                                               %
-%2.- Descargar el conjunto de im‡genes T1W de Resonancia magnŽtica              %
+%1.- Leer el artâ€™culo de Automated Histogram-Based Brain Segmentation in T1-   %
+%Weighted Three-Dimensional Magnetic Resonance Head Imagesâ€ Zu YS et al,        %
+%NeuroImage 17, 1587â€“1598 (2002);                                               %
+%2.- Descargar el conjunto de imâ€¡genes T1W de Resonancia magnÅ½tica              %
 %disponibles en BB.                                                             %
-%3.- Siguiendo el procedimiento del art’culo, para todas las im‡genes generar el%
-%c—digo en Matlab que segmente la materia gris y remueva el cr‡neo y los        %
-%tejidos subcraneales (hasta Žl inciso C de la figura 3).                       %
+%3.- Siguiendo el procedimiento del artâ€™culo, para todas las imâ€¡genes generar el%
+%câ€”digo en Matlab que segmente la materia gris y remueva el crâ€¡neo y los        %
+%tejidos subcraneales (hasta Å½l inciso C de la figura 3).                       %
 %4.- Describa en forma detallada la secuencia de pasos (algoritmos) del         %
 %procesamiento de la imagen y sus resultados.                                   %
-%5.- An‡lisis y discusión.                                                      %
-%6.- Realice una conclusi—n general de sus resultados.                          %
+%5.- Anâ€¡lisis y discusiÃ³n.                                                      %
+%6.- Realice una conclusiâ€”n general de sus resultados.                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Para leer muchas im‡genes
-imagen=dicomread('IM-0001-0075.dcm');%Cargo una imagen para saber su tama–o
+%Para leer muchas imâ€¡genes
+imagen=dicomread('IM-0001-0075.dcm');%Cargo una imagen para saber su tamaâ€“o
 
-d=dir('*.dcm');%dime todos los archivos que tienen la extensi—n dcm
-tamano=length(d);%tama–o de todo el arreglo, cuantos archivos encontr— con esa extensi—n
-I=zeros(918,920,tamano,'uint8');%x y es el tama–o de cada una de las im‡genes, leer una imagen y vemos que tama–o tiene para sustituir los valores
-IHE=zeros(918,920,tamano,'uint8');%Matriz para guardar im‡genes ecualizadas
-B1=zeros(918,920,tamano,'uint8');%Matriz para guardar im‡genes despuŽs de eliminar el umbral de Otsu
-M1=zeros(918,920,tamano,'uint8');%Matriz para guardar la m‡scara
-B2=zeros(918,920,tamano,'uint8');%Matriz para guardar las im‡genes finales
+d=dir('*.dcm');%dime todos los archivos que tienen la extensiâ€”n dcm
+tamano=length(d);%tamaâ€“o de todo el arreglo, cuantos archivos encontrâ€” con esa extensiâ€”n
+I=zeros(918,920,tamano,'uint8');%x y es el tamaâ€“o de cada una de las imâ€¡genes, leer una imagen y vemos que tamaâ€“o tiene para sustituir los valores
+IHE=zeros(918,920,tamano,'uint8');%Matriz para guardar imâ€¡genes ecualizadas
+B1=zeros(918,920,tamano,'uint8');%Matriz para guardar imâ€¡genes despuÅ½s de eliminar el umbral de Otsu
+M1=zeros(918,920,tamano,'uint8');%Matriz para guardar la mâ€¡scara
+B2=zeros(918,920,tamano,'uint8');%Matriz para guardar las imâ€¡genes finales
 
 for i=1:tamano
     imagentmp=rgb2gray(dicomread(d(i).name));%leer el archivo y lo guardo en una variable
     I(:,:,i)=imagentmp;%Asigno el archivo a una sola estructura 
 end
 
-%Ecualizar imágenes a una sola imagen
-IE=I(:,:,60);%Imagen que se va a utilizar para ecualizar a las dem‡s
+%Ecualizar imÃ¡genes a una sola imagen
+IE=I(:,:,60);%Imagen que se va a utilizar para ecualizar a las demâ€¡s
 [y,x]=imhist(IE);
 M=52.24;%Valor de la media del segundo pico estimado en la gaussiana para calcular ts
 
@@ -59,20 +59,20 @@ for i=1:tamano
     Io(idx)=0;%pongo 0 a todo lo que esta abajo del umbral de Otsu
     B1(:,:,i)=Io;
     
-    ts = OtsuL + ((4/5)*(M-OtsuL));%Umbral ts para generar la primer m‡scara
+    ts = OtsuL + ((4/5)*(M-OtsuL));%Umbral ts para generar la primer mâ€¡scara
     nivel = ts/255;
     M1(:,:,i)=im2bw(Io,nivel);%Imagen en blanco y negro modificada
     
     IM= M1(:,:,i);
     SE=strel('disk',3);
-    M1(:,:,i)=imopen(IM,SE); %Se utiliza esta funci—n para eliminar los elementos poco conectados
+    M1(:,:,i)=imopen(IM,SE); %Se utiliza esta funciâ€”n para eliminar los elementos poco conectados
 end
 
-%El siguiente ciclo se procesan las im‡genes para eliminar las adyacencias,
-%cr‡neo y tejidos subcut‡neos, y conservar el cerebro.
-%El an‡lisis de las im‡genes se realiz— dependiendo de sus necesidades, no
-%se utiliz— el mismo procedimiento en todas.
-%Las primeras y las úœltimas im‡genes que no contienen informaci—n
+%El siguiente ciclo se procesan las imâ€¡genes para eliminar las adyacencias,
+%crâ€¡neo y tejidos subcutâ€¡neos, y conservar el cerebro.
+%El anâ€¡lisis de las imâ€¡genes se realizâ€” dependiendo de sus necesidades, no
+%se utilizâ€” el mismo procedimiento en todas.
+%Las primeras y las ÃºÅ“ltimas imâ€¡genes que no contienen informaciâ€”n
 %relacionada con el cerebro fueron eliminadas.
 for i=1:tamano
     if (i >= 18) && (i <= 19)
@@ -159,7 +159,7 @@ for i=1:tamano
         end
         IM= M1(:,:,i);
         SE=strel('disk',4);
-        M1(:,:,i)=imerode(IM,SE); %Se utiliza esta función para erosionar
+        M1(:,:,i)=imerode(IM,SE); %Se utiliza esta funciÃ³n para erosionar
         ME=M1(:,:,i);
         CC = bwconncomp(ME);
         numPixels = cellfun(@numel,CC.PixelIdxList);
@@ -177,8 +177,8 @@ for i=1:tamano
     elseif (i >= 45) && (i <= 97)
         IM= M1(:,:,i);
         SE=strel('disk',4);
-        IM=imerode(IM,SE); %Se utiliza esta función para erosionar
-        M1(:,:,i)=imopen(IM,SE); %Se utiliza esta función para erosionar
+        IM=imerode(IM,SE); %Se utiliza esta funciÃ³n para erosionar
+        M1(:,:,i)=imopen(IM,SE); %Se utiliza esta funciÃ³n para erosionar
         ME=M1(:,:,i);
         CC = bwconncomp(ME);
         numPixels = cellfun(@numel,CC.PixelIdxList);
@@ -280,27 +280,27 @@ for i=1:tamano
     end
 end
 
-%Se hace la triple dilataci—n de las m‡scaras
+%Se hace la triple dilataciâ€”n de las mâ€¡scaras
 for i=1:tamano
     IM= M1(:,:,i);
     SE=strel('disk',3);
-    IM=imdilate(IM,SE); %Se utiliza esta funci—n para dilatar
-    IM=imdilate(IM,SE); %Se utiliza esta funci—n para dilatar
-    IM=imdilate(IM,SE); %Se utiliza esta funci—n para dilatar
+    IM=imdilate(IM,SE); %Se utiliza esta funciâ€”n para dilatar
+    IM=imdilate(IM,SE); %Se utiliza esta funciâ€”n para dilatar
+    IM=imdilate(IM,SE); %Se utiliza esta funciâ€”n para dilatar
     M1(:,:,i) = IM;
 end
 
-%Se hace la multiplicaci—n de las m‡scaras por las im‡genes ecualizadas y
+%Se hace la multiplicaciâ€”n de las mâ€¡scaras por las imâ€¡genes ecualizadas y
 %sin el umbral de Otsu
 for i=1:tamano
     B2(:,:,i)=B1(:,:,i).*M1(:,:,i);
 end
 
-%Despliegue de las im‡genes
-for i=1:144, imshow(I(:,:,i),[]), end %Im‡genes originales
-for i=1:144, imshow(B1(:,:,i),[]), end %Im‡genes ecualizadas y sin umbral de Otsu
-for i=1:144, imshow(M1(:,:,i),[]), end %M‡scaras
-for i=1:144, imshow(B2(:,:,i),[]), end %Im‡genes finales
+%Despliegue de las imâ€¡genes
+for i=1:144, imshow(I(:,:,i),[]), end %Imâ€¡genes originales
+for i=1:144, imshow(B1(:,:,i),[]), end %Imâ€¡genes ecualizadas y sin umbral de Otsu
+for i=1:144, imshow(M1(:,:,i),[]), end %Mâ€¡scaras
+for i=1:144, imshow(B2(:,:,i),[]), end %Imâ€¡genes finales
 
 % subplot(2,2,1), imshow(I(:,:,5),[])
 % title('Imagen original 5')
@@ -333,13 +333,13 @@ for i=1:144, imshow(B2(:,:,i),[]), end %Im‡genes finales
 % 
 % figure()
 % subplot(2,2,1), imshow(M1(:,:,5),[])
-% title('Imagen de la m‡scara (M1) 5')
+% title('Imagen de la mâ€¡scara (M1) 5')
 % subplot(2,2,2), imshow(M1(:,:,20),[])
-% title('Imagen de la m‡scara (M1) 20')
+% title('Imagen de la mâ€¡scara (M1) 20')
 % subplot(2,2,3), imshow(M1(:,:,97),[])
-% title('Imagen de la m‡scara (M1) 97')
+% title('Imagen de la mâ€¡scara (M1) 97')
 % subplot(2,2,4), imshow(M1(:,:,126),[])
-% title('Imagen de la m‡scara (M1) 126')
+% title('Imagen de la mâ€¡scara (M1) 126')
 % 
 % figure()
 % subplot(2,2,1), imshow(B2(:,:,5),[])

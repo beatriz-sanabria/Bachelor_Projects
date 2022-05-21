@@ -3,58 +3,50 @@ close all
 clc
 
 % %---------------------------------------------------------------------% %
-% %....INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
-% %....................CAMPUS CIUDAD DE MÉXICO..........................% %
+% %....INSTITUTO TECNOLÃ“GICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
+% %....................CAMPUS CIUDAD DE MÃ‰XICO..........................% %
 % %...........................INTEGRANTES:..............................% %
 % %..............BEATRIZ SANABRIA BARRADAS - A01182649..................% %
 % %.........................Examen Parcial 2............................% %
 % %---------------------------------------------------------------------% %
 
-%Procedimiento:
+% % Instructions:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%1.- La evaluación cuantitativa de la función del corazón como bomba permite a  %
-%los cardiólogos hacer un diagnóstico y pronóstico de la posible enfermedad que %
-%un paciente pueda tener. Para ello, es importante contar una herramienta de    %
-%procesamiento de imágenes que permita la segmentación del borde epicárdico     %
-%(Verde) y endocárdico (rojo) como se ilustra en la figura 1.                   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % 1.- Quantitative assessment of heart function as a pump allows cardiologists to make a diagnosis 
+% % and prognosis of the possible disease a patient may have. For this, it is important to have an 
+% % image processing tool that allows the segmentation of the epicardial (Green) and endocardial (red) 
+% % border as illustrated in Figure 1.                  
+% % 2. Propose a solution in Matlab to segment the endocardial (red) edge of a set of MRI images:         
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Proponga una solución en Matlab para segmentar el borde del endocardio (rojo)  %
-%de un conjunto de imágenes de Resonancia Magnética:                            %
-%a) Despliegue los resultados para cada una de las imágenes.                    %
-%b) Reporte en forma detallada la secuencia de pasos (algoritmo) del            %
-%procesamiento de la imagen y sus resultados.                                   %
-%c) Analice y discuta los parámetros óptimos para la segmentación de los        %
-%bordes.                                                                        %
-%d) Realice una conclusión general de sus resultados.                           %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % a) Display the results for each of the images.   
+% % % b) Report in detail the sequence of steps (algorithm) of the image processing and its results.    
+% % % c) Analyze and discuss the optimal parameters for edge segmentation. 
+% % % d) Make a general conclusion of your results.                           
 
-%Para leer muchas imágenes
-imagen=dicomread('IM-0001-0001.dcm');%Cargo una imagen para saber su tamaño
+%Para leer muchas imÃ¡genes
+imagen=dicomread('IM-0001-0001.dcm');%Cargo una imagen para saber su tamaÃ±o
 
-d=dir('*.dcm');%dime todos los archivos que tienen la extensión dcm
-tamano=length(d);%tamaño de todo el arreglo, cuantos archivos encontro con esa extensión
-I=zeros(128,128,tamano,'uint16');%Vector para guardar todas las imágenes en una variable
-Id=zeros(128,128,tamano,'double');%Vector para guardar las imágenes en tipo double para hacer el filtrado
-Im=zeros(128,128,tamano,'double');%Vector para guardar máscara 
-If=zeros(128,128,tamano,'double');%Vector para guardar máscara filtrada
-Ifo=zeros(128,128,tamano,'double');%Vector para guardar imágenes filtradas
+d=dir('*.dcm');%dime todos los archivos que tienen la extensiÃ³n dcm
+tamano=length(d);%tamaÃ±o de todo el arreglo, cuantos archivos encontro con esa extensiÃ³n
+I=zeros(128,128,tamano,'uint16');%Vector para guardar todas las imÃ¡genes en una variable
+Id=zeros(128,128,tamano,'double');%Vector para guardar las imÃ¡genes en tipo double para hacer el filtrado
+Im=zeros(128,128,tamano,'double');%Vector para guardar mÃ¡scara 
+If=zeros(128,128,tamano,'double');%Vector para guardar mÃ¡scara filtrada
+Ifo=zeros(128,128,tamano,'double');%Vector para guardar imÃ¡genes filtradas
 
-%Asigno todas las imágenes al vector I
+%Asigno todas las imÃ¡genes al vector I
 for i=1:tamano
      imagentmp=dicomread(d(i).name);%leer el archivo y lo guardo en una variable
      I(:,:,i)=imagentmp;%Asigno el archivo a una sola estructura 
 end
 
-%Convierto todas las imágenes a tipo double para filtrarlas
+%Convierto todas las imÃ¡genes a tipo double para filtrarlas
 for i=1:tamano
      Id(:,:,i)=im2double(I(:,:,i));
      Im(:,:,i)=Id(:,:,i);
 end
 
-%Creo una máscara para localizar el epicardio y el endocardio
+%Creo una mÃ¡scara para localizar el epicardio y el endocardio
 for i=1:tamano
     for j=1:47
         Im(j,:,i)=0;
@@ -115,12 +107,12 @@ If(55,66,19) = 1;
 
 SE=strel('disk',2);
 
-%Función para rellenar estructuras
+%FunciÃ³n para rellenar estructuras
 for i=1:tamano
     If2(:,:,i)=imfill(If(:,:,i),'holes');
 end
 
-%Se utiliza la siguiente función para eliminar los elementos poco conectados
+%Se utiliza la siguiente funciÃ³n para eliminar los elementos poco conectados
 for i=1:tamano
     If2(:,:,i)=imopen(If2(:,:,i),SE);
 end
@@ -130,7 +122,7 @@ for i=1:tamano
     If2(:,:,i)=If2(:,:,i).*If(:,:,i);
 end
 
-%Máscara figura 1
+%MÃ¡scara figura 1
 for i=65:74
     for j=63:71
         If2(j,i,1)=0;
@@ -140,7 +132,7 @@ If2(61,73,1)=0;
 If2(61,74,1)=0;
 If2(62,74,1)=0;
 
-%Máscara figura 2
+%MÃ¡scara figura 2
 for i=64:74
     for j=64:69
         If2(j,i,2)=0;
@@ -150,50 +142,50 @@ If2(64,78,2)=1;
 If2(63,78,2)=1;
 If2(63,77,2)=1;
 
-%Máscara figura 3
+%MÃ¡scara figura 3
 for j=1:58
     If2(j,:,3)=0;
 end
 
-%Máscara figura 4
+%MÃ¡scara figura 4
 If2(66,66,4)=0;
 
-%Máscara figura 6
+%MÃ¡scara figura 6
 for i=64:73
     for j=62:71
         If2(j,i,6)=0;
     end
 end
 
-%Máscara figura 7
+%MÃ¡scara figura 7
 for i=61:73
     for j=63:71
         If2(j,i,7)=0;
     end
 end
 
-%Máscara figura 8
+%MÃ¡scara figura 8
 for i=63:73
     for j=63:71
         If2(j,i,8)=0;
     end
 end
 
-%Máscara figura 9
+%MÃ¡scara figura 9
 for i=63:75
     for j=59:72
         If2(j,i,9)=0;
     end
 end
 
-%Máscara figura 10
+%MÃ¡scara figura 10
 for i=64:73
     for j=63:73
         If2(j,i,10)=0;
     end
 end
 
-%Máscara figura 11
+%MÃ¡scara figura 11
 If2(65,78,11)=1;
 If2(64,78,11)=1;
 If2(64,77,11)=1;
@@ -203,7 +195,7 @@ for i=65:69
     end
 end
 
-%Máscara figura 11
+%MÃ¡scara figura 11
 If2(65,78,11)=1;
 If2(64,78,11)=1;
 If2(64,77,11)=1;
@@ -213,7 +205,7 @@ for i=65:69
     end
 end
 
-%Máscara figura 15
+%MÃ¡scara figura 15
 If2(65,72,15)=0;
 If2(66,72,15)=0;
 If2(67,72,15)=0;
@@ -223,35 +215,35 @@ for i=65:71
     end
 end
 
-%Máscara figura 18
+%MÃ¡scara figura 18
 for i=63:73
     for j=60:73
         If2(j,i,18)=0;
     end
 end
 
-%Máscara figura 16
+%MÃ¡scara figura 16
 for i=62:73
     for j=61:70
         If2(j,i,16)=0;
     end
 end
 
-%Máscara figura 17
+%MÃ¡scara figura 17
 for i=64:72
     for j=64:70
         If2(j,i,17)=0;
     end
 end
 
-%Máscara figura 19
+%MÃ¡scara figura 19
 for i=64:75
     for j=60:71
         If2(j,i,19)=0;
     end
 end
 
-%Máscara figura 20
+%MÃ¡scara figura 20
 If2(63,77,20)=1;
 for i=65:71
     for j=65:68
@@ -259,7 +251,7 @@ for i=65:71
     end
 end
 
-%Máscara figura 21
+%MÃ¡scara figura 21
 If2(50,63,21)=0;
 If2(66,66,21)=0;
 If2(67,66,21)=0;

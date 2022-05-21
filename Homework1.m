@@ -3,70 +3,67 @@ close all
 clc
 
 % %---------------------------------------------------------------------% %
-% %....INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
-% %....................CAMPUS CIUDAD DE MÉXICO..........................% %
+% %....INSTITUTO TECNOLÃ“GICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
+% %....................CAMPUS CIUDAD DE MÃ‰XICO..........................% %
 % %...........................INTEGRANTES:..............................% %
 % %..............BEATRIZ SANABRIA BARRADAS - A01182649..................% %
 % %..............................Tarea 1................................% %
 % %---------------------------------------------------------------------% %
 
-%Instrucciones:
+% % Instructions:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%1.- Determinar el área efectiva de las imágenes de la prótesis valvular ( video%
-%disponible en BlackBoard) proponiendo una secuencia de pasos estructurada y    %
-%reproducible para tal fin.                                                     % 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % 1.- Determine the effective imaging area of the valve prosthesis by proposing 
+% % a structured and reproducible sequence of steps for that purpose.   
 
-load imagen;%Cargo el video a una variable
+load imagen; % Cargo el video a una variable
 
-for i=1:22, subplot(6,4,i),imshow(I(:,:,i)), end %graficar todas las imágenes
-Io=I(:,:,18); %Imagen de la válvula 18
-I1=I(:,:,4); %Imagen de la válvula 4
-I2=I(:,:,7); %Imagen de la válvula 7
-I3=I(:,:,11); %Imagen de la válvula 11
-I4=I(:,:,15); %Imagen de la válvula 15
+for i=1:22, subplot(6,4,i),imshow(I(:,:,i)), end %graficar todas las imÃ¡genes
+Io=I(:,:,18); %Imagen de la vÃ¡lvula 18
+I1=I(:,:,4); %Imagen de la vÃ¡lvula 4
+I2=I(:,:,7); %Imagen de la vÃ¡lvula 7
+I3=I(:,:,11); %Imagen de la vÃ¡lvula 11
+I4=I(:,:,15); %Imagen de la vÃ¡lvula 15
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-%Análisis par válvula 18%
+%AnÃ¡lisis par vÃ¡lvula 18%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure('Name', 'Válvula 18')
+figure('Name', 'VÃ¡lvula 18')
 subplot(1,2,1),imshow(Io) %Imagen original
 title('Imagen original') 
 subplot(1,2,2),imhist(Io) %Histograma de la imagen original
 title('Histograma')
 
-nivel = graythresh(Io);%Función que nos permite calcular el valor que nos va 
+nivel = graythresh(Io);%FunciÃ³n que nos permite calcular el valor que nos va 
 %a definir a partir de donde van a ser 1s y 0s
 Io_bw=im2bw(Io,nivel);%Imagen en blanco y negro modificada
 
-figure('Name', 'Procesamiento de imagen: Válvula 18')
+figure('Name', 'Procesamiento de imagen: VÃ¡lvula 18')
 subplot(2,3,1),imshow(Io) %Imagen original
 title('Imagen original')
 subplot(2,3,2),imshow(Io_bw) %Imagen en blanco y negro
 title('Imagen b/n')
 
 SE=strel('disk',5);
-Io1=imopen(Io_bw,SE); %Se utiliza esta función para eliminar los elementos poco conectados
+Io1=imopen(Io_bw,SE); %Se utiliza esta funciÃ³n para eliminar los elementos poco conectados
 subplot(2,3,3),imshow(Io1);
 title('Apertura')
 
 SE=strel('square',4);
-Io1=imclose(Io1,SE); %Se utiliza esta función para asociar los elementos que se desconectaron en el procedimiento anterior
+Io1=imclose(Io1,SE); %Se utiliza esta funciÃ³n para asociar los elementos que se desconectaron en el procedimiento anterior
 subplot(2,3,4), imshow(Io1)
 title('Cierre')
 
 SE=strel('square',4);
 Io1=imerode(Io1,SE); %Se erosiona la imagen para eliminar elementos del borde valvular
 subplot(2,3,5), imshow(Io1)
-title('Erosión')
+title('ErosiÃ³n')
 
-cont=0;%Contador para saber cuántos pixeles corresponden al contorno
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área del contorno valvular
+cont=0;%Contador para saber cuÃ¡ntos pixeles corresponden al contorno
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea del contorno valvular
 
-k=1;%Variable para guardar posición
+k=1;%Variable para guardar posiciÃ³n
 
 for i=1:480
     for j=1:640
@@ -80,12 +77,12 @@ for i=1:480
     end
 end
 
-IoF=imfill(Io1,'holes'); %Función para rellenar la estructura de la válvula y conocer su área
+IoF=imfill(Io1,'holes'); %FunciÃ³n para rellenar la estructura de la vÃ¡lvula y conocer su Ã¡rea
 IoF_RGB=ind2rgb(Io1,colormap);%Convierto mi imagen a RGB
 
-cont2=0;%Contador para saber cuántos pixeles corresponden al área valvular
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área valvular
+cont2=0;%Contador para saber cuÃ¡ntos pixeles corresponden al Ã¡rea valvular
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea valvular
 k=1;
 for i=1:480
     for j=1:640
@@ -99,8 +96,8 @@ for i=1:480
     end
 end
 
-%Los siguientes FOR se están utilizando para pintar el contorno rojo de la
-%válvula y el área efectiva
+%Los siguientes FOR se estÃ¡n utilizando para pintar el contorno rojo de la
+%vÃ¡lvula y el Ã¡rea efectiva
 for i=1:95136
     IoF_RGB(x1(i),y1(i),1)=255;
     IoF_RGB(x1(i),y1(i),2)=255;
@@ -116,46 +113,46 @@ subplot(2,3,6), imshow(IoF_RGB)
 title('Imagen rellena')
 
 area18 = cont2 - cont; %Se restan el total de pixeles en 1 en la imagen rellena menos los del contorno 
-%para conocer el área efectiva de la válvula
+%para conocer el Ã¡rea efectiva de la vÃ¡lvula
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-%Análisis par válvula 4%
+%AnÃ¡lisis par vÃ¡lvula 4%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure('Name', 'Válvula 4')
+figure('Name', 'VÃ¡lvula 4')
 subplot(1,2,1),imshow(I1) %Imagen original
 title('Imagen original') 
 subplot(1,2,2),imhist(I1) %Histograma de la imagen original
 title('Histograma')
 
-nivel = graythresh(I1);%Función que nos permite calcular el valor que nos va 
+nivel = graythresh(I1);%FunciÃ³n que nos permite calcular el valor que nos va 
 %a definir a partir de donde van a ser 1s y 0s
 Io_bw=im2bw(I1,nivel);%Imagen en blanco y negro modificada
 
-figure('Name', 'Procesamiento de imagen: Válvula 4')
+figure('Name', 'Procesamiento de imagen: VÃ¡lvula 4')
 subplot(2,3,1),imshow(I1) %Imagen original
 title('Imagen original')
 subplot(2,3,2),imshow(Io_bw) %Imagen en blanco y negro
 title('Imagen b/n')
 
 SE=strel('disk',5);
-Io1=imopen(Io_bw,SE); %Se utiliza esta función para eliminar los elementos poco conectados
+Io1=imopen(Io_bw,SE); %Se utiliza esta funciÃ³n para eliminar los elementos poco conectados
 subplot(2,3,3),imshow(Io1);
 title('Apertura')
 
 SE=strel('square',4);
-Io1=imclose(Io1,SE); %Se utiliza esta función para asociar los elementos que se desconectaron en el procedimiento anterior
+Io1=imclose(Io1,SE); %Se utiliza esta funciÃ³n para asociar los elementos que se desconectaron en el procedimiento anterior
 subplot(2,3,4), imshow(Io1)
 title('Cierre')
 
 SE=strel('square',4);
 Io1=imerode(Io1,SE); %Se erosiona la imagen para eliminar elementos del borde valvular
 subplot(2,3,5), imshow(Io1)
-title('Erosión')
+title('ErosiÃ³n')
 
-cont=0;%Contador para saber cuántos pixeles corresponden al contorno
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área del contorno valvular
+cont=0;%Contador para saber cuÃ¡ntos pixeles corresponden al contorno
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea del contorno valvular
 
 k=1;
 
@@ -171,12 +168,12 @@ for i=1:480
     end
 end
 
-IoF=imfill(Io1,'holes'); %Función para rellenar la estructura de la válvula y conocer su área
+IoF=imfill(Io1,'holes'); %FunciÃ³n para rellenar la estructura de la vÃ¡lvula y conocer su Ã¡rea
 IoF_RGB=ind2rgb(Io1,colormap);
 
-cont2=0;%Contador para saber cuántos pixeles corresponden al área valvular
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área valvular
+cont2=0;%Contador para saber cuÃ¡ntos pixeles corresponden al Ã¡rea valvular
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea valvular
 k=1;
 for i=1:480
     for j=1:640
@@ -205,46 +202,46 @@ subplot(2,3,6), imshow(IoF_RGB)
 title('Imagen rellena')
 
 area4 = cont2 - cont; %Se restan el total de pixeles en 1 en la imagen rellena menos los del contorno 
-%para conocer el área efectiva de la válvula
+%para conocer el Ã¡rea efectiva de la vÃ¡lvula
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-%Análisis par válvula 7%
+%AnÃ¡lisis par vÃ¡lvula 7%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure('Name', 'Válvula 7')
+figure('Name', 'VÃ¡lvula 7')
 subplot(1,2,1),imshow(I2) %Imagen original
 title('Imagen original') 
 subplot(1,2,2),imhist(I2) %Histograma de la imagen original
 title('Histograma')
 
-nivel = graythresh(I2);%Función que nos permite calcular el valor que nos va 
+nivel = graythresh(I2);%FunciÃ³n que nos permite calcular el valor que nos va 
 %a definir a partir de donde van a ser 1s y 0s
 Io_bw=im2bw(I2,nivel);%Imagen en blanco y negro modificada
 
-figure('Name', 'Procesamiento de imagen: Válvula 7')
+figure('Name', 'Procesamiento de imagen: VÃ¡lvula 7')
 subplot(2,3,1),imshow(I2) %Imagen original
 title('Imagen original')
 subplot(2,3,2),imshow(Io_bw) %Imagen en blanco y negro
 title('Imagen b/n')
 
 SE=strel('disk',5);
-Io1=imopen(Io_bw,SE); %Se utiliza esta función para eliminar los elementos poco conectados
+Io1=imopen(Io_bw,SE); %Se utiliza esta funciÃ³n para eliminar los elementos poco conectados
 subplot(2,3,3),imshow(Io1);
 title('Apertura')
 
 SE=strel('square',4);
-Io1=imclose(Io1,SE); %Se utiliza esta función para asociar los elementos que se desconectaron en el procedimiento anterior
+Io1=imclose(Io1,SE); %Se utiliza esta funciÃ³n para asociar los elementos que se desconectaron en el procedimiento anterior
 subplot(2,3,4), imshow(Io1)
 title('Cierre')
 
 SE=strel('square',4);
 Io1=imerode(Io1,SE); %Se erosiona la imagen para eliminar elementos del borde valvular
 subplot(2,3,5), imshow(Io1)
-title('Erosión')
+title('ErosiÃ³n')
 
-cont=0;%Contador para saber cuántos pixeles corresponden al contorno
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área del contorno valvular
+cont=0;%Contador para saber cuÃ¡ntos pixeles corresponden al contorno
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea del contorno valvular
 k=1;
 
 for i=1:480
@@ -259,12 +256,12 @@ for i=1:480
     end
 end
 
-IoF=imfill(Io1,'holes'); %Función para rellenar la estructura de la válvula y conocer su área
+IoF=imfill(Io1,'holes'); %FunciÃ³n para rellenar la estructura de la vÃ¡lvula y conocer su Ã¡rea
 IoF_RGB=ind2rgb(Io1,colormap);
 
-cont2=0;%Contador para saber cuántos pixeles corresponden al área valvular
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área valvular
+cont2=0;%Contador para saber cuÃ¡ntos pixeles corresponden al Ã¡rea valvular
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea valvular
 k=1;
 for i=1:480
     for j=1:640
@@ -293,46 +290,46 @@ subplot(2,3,6), imshow(IoF_RGB)
 title('Imagen rellena')
 
 area7 = cont2 - cont; %Se restan el total de pixeles en 1 en la imagen rellena menos los del contorno 
-%para conocer el área efectiva de la válvula
+%para conocer el Ã¡rea efectiva de la vÃ¡lvula
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-%Análisis par válvula 11%
+%AnÃ¡lisis par vÃ¡lvula 11%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure('Name', 'Válvula 11')
+figure('Name', 'VÃ¡lvula 11')
 subplot(1,2,1),imshow(I3) %Imagen original
 title('Imagen original') 
 subplot(1,2,2),imhist(I3) %Histograma de la imagen original
 title('Histograma')
 
-nivel = graythresh(I3);%Función que nos permite calcular el valor que nos va 
+nivel = graythresh(I3);%FunciÃ³n que nos permite calcular el valor que nos va 
 %a definir a partir de donde van a ser 1s y 0s
 Io_bw=im2bw(I3,nivel);%Imagen en blanco y negro modificada
 
-figure('Name', 'Procesamiento de imagen: Válvula 11')
+figure('Name', 'Procesamiento de imagen: VÃ¡lvula 11')
 subplot(2,3,1),imshow(I3) %Imagen original
 title('Imagen original')
 subplot(2,3,2),imshow(Io_bw) %Imagen en blanco y negro
 title('Imagen b/n')
 
 SE=strel('disk',5);
-Io1=imopen(Io_bw,SE); %Se utiliza esta función para eliminar los elementos poco conectados
+Io1=imopen(Io_bw,SE); %Se utiliza esta funciÃ³n para eliminar los elementos poco conectados
 subplot(2,3,3),imshow(Io1);
 title('Apertura')
 
 SE=strel('square',5);
-Io1=imclose(Io1,SE); %Se utiliza esta función para asociar los elementos que se desconectaron en el procedimiento anterior
+Io1=imclose(Io1,SE); %Se utiliza esta funciÃ³n para asociar los elementos que se desconectaron en el procedimiento anterior
 subplot(2,3,4), imshow(Io1)
 title('Cierre')
 
 SE=strel('square',2);
 Io1=imerode(Io1,SE); %Se erosiona la imagen para eliminar elementos del borde valvular
 subplot(2,3,5), imshow(Io1)
-title('Erosión')
+title('ErosiÃ³n')
 
-cont=0;%Contador para saber cuántos pixeles corresponden al contorno
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área del contorno valvular
+cont=0;%Contador para saber cuÃ¡ntos pixeles corresponden al contorno
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea del contorno valvular
 k=1;
 
 for i=1:480
@@ -347,12 +344,12 @@ for i=1:480
     end
 end
 
-IoF=imfill(Io1,'holes'); %Función para rellenar la estructura de la válvula y conocer su área
+IoF=imfill(Io1,'holes'); %FunciÃ³n para rellenar la estructura de la vÃ¡lvula y conocer su Ã¡rea
 IoF_RGB=ind2rgb(Io1,colormap);
 
-cont2=0;%Contador para saber cuántos pixeles corresponden al área valvular
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área valvular
+cont2=0;%Contador para saber cuÃ¡ntos pixeles corresponden al Ã¡rea valvular
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea valvular
 k=1;
 for i=1:480
     for j=1:640
@@ -381,46 +378,46 @@ subplot(2,3,6), imshow(IoF_RGB)
 title('Imagen rellena')
 
 area11 = cont2 - cont; %Se restan el total de pixeles en 1 en la imagen rellena menos los del contorno 
-%para conocer el área efectiva de la válvula
+%para conocer el Ã¡rea efectiva de la vÃ¡lvula
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-%Análisis par válvula 15%
+%AnÃ¡lisis par vÃ¡lvula 15%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-figure('Name', 'Válvula 15')
+figure('Name', 'VÃ¡lvula 15')
 subplot(1,2,1),imshow(I4) %Imagen original
 title('Imagen original') 
 subplot(1,2,2),imhist(I4) %Histograma de la imagen original
 title('Histograma')
 
-nivel = graythresh(I4);%Función que nos permite calcular el valor que nos va 
+nivel = graythresh(I4);%FunciÃ³n que nos permite calcular el valor que nos va 
 %a definir a partir de donde van a ser 1s y 0s
 Io_bw=im2bw(I3,nivel);%Imagen en blanco y negro modificada
 
-figure('Name', 'Procesamiento de imagen: Válvula 15')
+figure('Name', 'Procesamiento de imagen: VÃ¡lvula 15')
 subplot(2,3,1),imshow(I4) %Imagen original
 title('Imagen original')
 subplot(2,3,2),imshow(Io_bw) %Imagen en blanco y negro
 title('Imagen b/n')
 
 SE=strel('disk',5);
-Io1=imopen(Io_bw,SE); %Se utiliza esta función para eliminar los elementos poco conectados
+Io1=imopen(Io_bw,SE); %Se utiliza esta funciÃ³n para eliminar los elementos poco conectados
 subplot(2,3,3),imshow(Io1);
 title('Apertura')
 
 SE=strel('square',5);
-Io1=imclose(Io1,SE); %Se utiliza esta función para asociar los elementos que se desconectaron en el procedimiento anterior
+Io1=imclose(Io1,SE); %Se utiliza esta funciÃ³n para asociar los elementos que se desconectaron en el procedimiento anterior
 subplot(2,3,4), imshow(Io1)
 title('Cierre')
 
 SE=strel('square',2);
 Io1=imerode(Io1,SE); %Se erosiona la imagen para eliminar elementos del borde valvular
 subplot(2,3,5), imshow(Io1)
-title('Erosión')
+title('ErosiÃ³n')
 
-cont=0;%Contador para saber cuántos pixeles corresponden al contorno
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área del contorno valvular
+cont=0;%Contador para saber cuÃ¡ntos pixeles corresponden al contorno
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea del contorno valvular
 k=1;
 
 for i=1:480
@@ -435,12 +432,12 @@ for i=1:480
     end
 end
 
-IoF=imfill(Io1,'holes'); %Función para rellenar la estructura de la válvula y conocer su área
+IoF=imfill(Io1,'holes'); %FunciÃ³n para rellenar la estructura de la vÃ¡lvula y conocer su Ã¡rea
 IoF_RGB=ind2rgb(Io1,colormap);
 
-cont2=0;%Contador para saber cuántos pixeles corresponden al área valvular
-%Los siguientes FOR anidados nos sirven para contar cuántos pixeles se
-%encuentran en 1 y por lo tanto conocer el área valvular
+cont2=0;%Contador para saber cuÃ¡ntos pixeles corresponden al Ã¡rea valvular
+%Los siguientes FOR anidados nos sirven para contar cuÃ¡ntos pixeles se
+%encuentran en 1 y por lo tanto conocer el Ã¡rea valvular
 k=1;
 for i=1:480
     for j=1:640
@@ -469,13 +466,13 @@ subplot(2,3,6), imshow(IoF_RGB)
 title('Imagen rellena')
 
 area15 = cont2 - cont; %Se restan el total de pixeles en 1 en la imagen rellena menos los del contorno 
-%para conocer el área efectiva de la válvula
+%para conocer el Ã¡rea efectiva de la vÃ¡lvula
 
 nombres={'4','7','11','15','18'};
-figure ('Name','Áreas valvulares máximas')
+figure ('Name','Ãreas valvulares mÃ¡ximas')
 bar([area4 area7 area11 area15 area18]);
 set(gca,'XtickLabel',nombres)
 ylabel('Pixeles')
-xlabel('Válvulas')
-title ('Áreas valvulares máximas')
+xlabel('VÃ¡lvulas')
+title ('Ãreas valvulares mÃ¡ximas')
 

@@ -3,23 +3,22 @@ clear all
 clc
 
 % %---------------------------------------------------------------------% %
-% %....INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
-% %....................CAMPUS CIUDAD DE MÉXICO..........................% %
+% %....INSTITUTO TECNOLÃ“GICO Y DE ESTUDIOS SUPERIORES DE MONTERREY......% %
+% %....................CAMPUS CIUDAD DE MÃ‰XICO..........................% %
 % %...........................INTEGRANTES:..............................% %
 % %..............BEATRIZ SANABRIA BARRADAS - A01182649..................% %
 % %..............................Tarea 2................................% %
 % %---------------------------------------------------------------------% %
 
-%Instrucciones:
+% % Instructions:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%FILTRADO ESPACIAL: Con la serie de imágenes de Cardio Resonancia Magnética, resalte%
-%los bordes y muestre los resultados para todos los frames del estudio.             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% % SPACE FILTERING: With the Cardio MRI image series, highlight the edges 
+% % and display the results for all study frames.    
+    
+    
 I = dicomread('Cardio_RM.dcm');%Cargo el video a una variable
 I=squeeze(I); 
-figure('Name', 'Imágenes originales'), for i=1:30, subplot(6,5,i), imshow(I(:,:,i),[]); end;
+figure('Name', 'ImÃ¡genes originales'), for i=1:30, subplot(6,5,i), imshow(I(:,:,i),[]); end;
 
 Id = im2double(I(:,:,3));%convierto la imagen original a tipo double
 Idd= I(:,:,3);

@@ -10,22 +10,14 @@ clc
 % %.........................Examen Parcial 1............................% %
 % %---------------------------------------------------------------------% %
 
-%Procedimiento:
+% % Instructions:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%1.- Leer el art’culo de Automated Histogram-Based Brain Segmentation in T1-   %
-%Weighted Three-Dimensional Magnetic Resonance Head Images” Zu YS et al,        %
-%NeuroImage 17, 1587–1598 (2002);                                               %
-%2.- Descargar el conjunto de im‡genes T1W de Resonancia magnŽtica              %
-%disponibles en BB.                                                             %
-%3.- Siguiendo el procedimiento del art’culo, para todas las im‡genes generar el%
-%c—digo en Matlab que segmente la materia gris y remueva el cr‡neo y los        %
-%tejidos subcraneales (hasta Žl inciso C de la figura 3).                       %
-%4.- Describa en forma detallada la secuencia de pasos (algoritmos) del         %
-%procesamiento de la imagen y sus resultados.                                   %
-%5.- An‡lisis y discusión.                                                      %
-%6.- Realice una conclusi—n general de sus resultados.                          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % 1. Read the article Automated Histogram-Based Brain Segmentation in T1-Weighted Three-Dimensional Magnetic Resonance Head Images" Zu YS et al, NeuroImage 17, 1587-1598 (2002);    
+% % 2.- Download the set of T1W MRI images.         
+% % 3.- Following the procedure of the article, for all the images, generate the code in Matlab that segments the gray matter and removes the skull and subcranial tissues. 
+% % 4.- Describe in detail the sequence of steps (algorithms) of the image processing and its results.                                   
+% % 5.- Analysis and discussion.                                                      
+% % 6.- Make a general conclusion of your results.        
 
 %Para leer muchas im‡genes
 imagen=dicomread('IM-0001-0075.dcm');%Cargo una imagen para saber su tama–o
